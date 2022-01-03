@@ -28,3 +28,12 @@ stories:
   - action: utter_did_that_help
   - intent: deny
   - action: utter_goodbye
+
+- story: path abouth a test
+  steps:
+  - intent: test_incidence
+  - action: give_test_incidence
+  - intent: 7_day_incidence
+  - action: give_7_day_incidence
+  - intent: incidence_by_town
+  - action: give_incidence_by_town

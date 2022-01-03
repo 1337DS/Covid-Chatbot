@@ -89,3 +89,27 @@ nlu:
     - are you a human?
     - am I talking to a bot?
     - am I talking to a human?
+
+- intent: test_incidence
+  examples: |
+    - whats the incidence?
+    - can you tell me the incidence?
+    - whats the incidence in germany?
+
+- intent: 7_day_incidence
+  examples: |
+    - Can you tell me the incidence of the last seven days?
+    - Can you tell me the incidence of the last 7 days?
+    - 7 days incidence?
+  
+- intent: incidence_by_town
+  examples: |
+    - how big is the incidence for Mannheim?
+    - how big is the incidence for Heidelberg?
+    - how big is the incidence for Aschaffenburg?
+    - how big is the incidence for Frankfurt?
+    - how big is the incidence for Düsseldorf?
+    - how big is the incidence for Darmstadt?
+    - how big is the incidence for Hamburg?
+    - how big is the incidence for Bremen?
+

@@ -8,8 +8,18 @@ intents:
   - mood_great
   - mood_unhappy
   - bot_challenge
+  - test_incidence
+  - incidence_by_town
+  - 7_day_incidence
+
+actions:
+  - give_test_incidence
+  - give_incidence_by_town
+  - give_7_day_incidence
 
 responses:
+  # utter_incidence:
+  # - text: 
   utter_greet:
   - text: "Hey! How are you?"
 
