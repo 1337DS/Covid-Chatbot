@@ -4,7 +4,7 @@
 
 # Testing the Robert Koch Institute COVID-19 API
 
-The documentation for the API can be found [here](https://api.corona-zahlen.org/docs/endpoints/germany.html#germany-2)
+# The documentation for the API can be found [here](https://api.corona-zahlen.org/docs/endpoints/germany.html#germany-2)
 
 """
 
