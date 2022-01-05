@@ -1,0 +1,50 @@
+version: "3.0"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - test_incidence
+  - time_question
+  - test_landkreise_incidence
+
+actions:
+  - rasa_sdk
+  - utter_greet
+  - utter_happy
+  - utter_cheer_up
+  - utter_did_that_help
+  - utter_goodbye
+  - give_test_incidence
+  - give_the_time
+  - landkreise_incidence_map
+
+responses:
+  # utter_incidence:
+  # - text: 
+  utter_greet:
+  - text: "Hey! How are you?"
+
+  utter_cheer_up:
+  - text: "Here is something to cheer you up:"
+    image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+  - text: "Did that help you?"
+
+  utter_happy:
+  - text: "Great, carry on!"
+
+  utter_goodbye:
+  - text: "Bye"
+
+  utter_iamabot:
+  - text: "Hi, I can provide you with the latest information about Corona in Germany. For example, you can ask me about the current incidence."
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
