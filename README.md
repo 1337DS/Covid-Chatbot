@@ -10,7 +10,19 @@ Rasa connected: :heavy_check_mark:
 
 Working Functions: 1
 
-GUI: coming soon
+GUI: :heavy_check_mark:  
+
+Docker Deployment: in progress
+
+## To Do
+- Custom Actions erweitern
+
+- Anzeige Grafen + Karte (möglich?)
+
+- Portierung in Docker
+
+- evtl. GUI ändern
+
 
 ## Installation Instructions:
 docker network create rasa_project &&
