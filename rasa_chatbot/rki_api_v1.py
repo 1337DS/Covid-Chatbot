@@ -15,11 +15,19 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+# thread to run the file server to serve the plots as a URL
+import asyncio
+import picture_server as server
+
 class Endpoint_Requester():
-  def __init__(self, endpoint):
+  def __init__(self, endpoint, file_server: bool):
     self.base_url = "https://api.corona-zahlen.org"
     self.endpoint = endpoint # this must be definied by when the class is instanciated
-    #self.json_cache = {} # requested data will be stored here for caching 
+    self.plot_server = "http://localhost:4321"
+    self.use_plot_server = file_server
+    print("Remember to start the picture_server.py seperately")
+
+    
 
   def get_json(self, url_param=None, payload=None):
     """
@@ -92,8 +100,12 @@ class Endpoint_Requester():
 """## 2. Germany Endpoint"""
 
 class Endpoint_Germany(Endpoint_Requester):
-  def __init__(self):
-    super().__init__("/germany")
+  def __init__(self, file_server: bool):
+    """
+    Parameters:
+    : file_server (bool) : If true the file server is started when an instance of this class is created.
+    """
+    super().__init__("/germany", file_server)
     self.valid_history_endpoints = [
       "incidence", 
       "deaths",
@@ -228,6 +240,21 @@ class Endpoint_Germany(Endpoint_Requester):
     else:
       return [metric + "Male", metric + "Female"]
 
+  def save_plot(self, df, name):
+    """
+    Saves the plot of the dataframe as 'name' and returns a URL to access the plot.
+
+    Params:
+    ---
+    : df (pd.DataFrame) : The dataframe that should be plotted.
+    : name (str) : The name of the plot, when it is saved to a file.
+    """
+      out = f"{self.plot_server}/plot/{name}.png"
+      ax = df.plot()
+      fig = ax.get_figure()
+      fig.savefig(name)
+      # assuming that the picture_server.py is already running this URL will provide the plot that was just generated
+      return out
 
   def get_demographic(self, metric, split_sex=True, as_df=True):
     """
@@ -285,9 +312,20 @@ class Endpoint_Germany(Endpoint_Requester):
     else:
       return None, None
     
+    # if the plot server is running save the picture and serve it with that server
+    if self.use_plot_server:
+      # name of the plot will be the name of the metrics devided with a underscore
+      name = f'{"_".join(metrics)}'
+      # save to figure to ./plot and return the url to access the plot
+      url = self.save_plot(df, name)
+      return url
+
     return df, last_updated
-# Examples to get deaths
-#ger = Endpoint_Germany()
+
+# Examples to get cases and test the picture server
+##### comment this out if you want to use it in production #####
+ger = Endpoint_Germany(file_server=True)
+print(ger.get_demographic("cases",split_sex=False))
 #df, updated = ger.get_history("deaths", as_df=True)
 # Examples to get yesterdays incidence
 #df2, updated = ger.get_history("incidence")
