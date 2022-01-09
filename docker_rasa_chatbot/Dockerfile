@@ -25,4 +25,4 @@ RUN /opt/venv/bin/python -m pip install --upgrade pip
 USER 1000
 
 WORKDIR /
-CMD ["bash"]
+docker run -v $(pwd):/app rasa/rasa:3.0.4-full init --no-prompt
