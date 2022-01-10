@@ -90,11 +90,6 @@ nlu:
     - am I talking to a bot?
     - am I talking to a human?
 
-- intent: time_question
-  examples: |
-    - whats the time?
-    - what time is it? 
-
 
 
 - intent: test_incidence
@@ -105,9 +100,5 @@ nlu:
 
 
 
-- intent: test_landkreise_incidence
-  examples: |
-    - whats the incidence map?
-    - whats the incidence map of germany?
 
 

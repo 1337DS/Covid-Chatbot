@@ -6,22 +6,22 @@
 
 
 # This is a simple example for a custom action which utters "Hello World!"
-import rki_api_v1 as RKI_API
+#import rki_api_v1 as RKI_API
 from typing import Any, Text, Dict, List
 
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
-import datetime as dt 
 
 
-import requests as req
-import json
-import datetime as dt
+
+# import requests as req
+# import json
+#import datetime as dt
 
 # modules for visualization and storing / modifying data
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
+# import numpy as np
+# import pandas as pd
+# import matplotlib.pyplot as plt
 
 
 
@@ -29,19 +29,6 @@ import matplotlib.pyplot as plt
 
 
 
-class ActionTime(Action):
-
-    def name(self) -> Text:
-
-        return ("give_the_time")
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-        dispatcher.utter_message(text=f"{dt.now()}")
-
-        return []
     
 
 class ActionIncidence(Action):
@@ -53,11 +40,16 @@ class ActionIncidence(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        ger = RKI_API.Endpoint_Germany()
-        df2, updated = ger.get_history("incidence")
-        result=df2['weekIncidence'][-1]
-        result="funktioniert"
-        print(result)
+        #ger = RKI_API.Endpoint_Germany()
+        #df2, updated = ger.get_history("incidence")
+        #result=df2['weekIncidence'][-1]
+        #print(result)
+        result="too high"
+    #    r = req.get("https://api.corona-zahlen.org/map/districts-legend")
+   #     img = Image.open(BytesIO(r.content))
+  #      bild=img.convert("RGB")
+ #       bild.save("einjpgbild.jpg")
+#        dispatcher.utter_message(image=bild)
 
         dispatcher.utter_message(text=f"the incidence in germany is {result}")
 
@@ -75,8 +67,9 @@ class ActionLandkreise(Action):
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-        dispatcher.utter_message(text=f"landkreise_incidence_map")
+        
+        r = req.get("https://api.corona-zahlen.org/map/districts-legend")
+        dispatcher.utter_message(image=r)
 
         return []
     

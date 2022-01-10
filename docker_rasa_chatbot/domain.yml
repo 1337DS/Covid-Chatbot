@@ -21,18 +21,9 @@ responses:
   utter_greet:
   - text: "Hey! How are you?"
 
-  give_test_incidence:
-  - text: "Its 400"
-
-  incidence_by_town:
-  - text: "Its 600"
-
-  7_day_incidence:
-  - text: "Its 700"
-
   utter_cheer_up:
   - text: "Here is something to cheer you up:"
-    image: "https://api.corona-zahlen.org/map/districts-legend"
+    image: "https://i.imgur.com/nGF1K8f.jpg"
 
   utter_did_that_help:
   - text: "Did that help you?"

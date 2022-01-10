@@ -1,5 +1,2 @@
-tests/*
-models/*
-actions/*
 **/*.md 
 venv
