@@ -249,12 +249,12 @@ class Endpoint_Germany(Endpoint_Requester):
     : df (pd.DataFrame) : The dataframe that should be plotted.
     : name (str) : The name of the plot, when it is saved to a file.
     """
-      out = f"{self.plot_server}/plot/{name}.png"
-      ax = df.plot()
-      fig = ax.get_figure()
-      fig.savefig(name)
-      # assuming that the picture_server.py is already running this URL will provide the plot that was just generated
-      return out
+    out = f"{self.plot_server}/plot/{name}.png"
+    ax = df.plot()
+    fig = ax.get_figure()
+    fig.savefig(name)
+    # assuming that the picture_server.py is already running this URL will provide the plot that was just generated
+    return out
 
   def get_demographic(self, metric, split_sex=True, as_df=True):
     """
@@ -280,11 +280,12 @@ class Endpoint_Germany(Endpoint_Requester):
 
     Returns:
     ---
-    (data, last_updated) or (None, None)
+    (data, last_updated) or (None, None) or url
     
     :data (pd.DataFrame|dict): The received data value depends on parameter "as_df"
     :last_updated (datetime): Date of the last update of that data
     :None: in case of an error
+    :url: is returned if the pictures are served via flask. See "rki_api_v1.py"
     """
     # send json to get demographics data, no further URL parameters needed
     json = self.get_json(url_param="age-groups")
@@ -322,10 +323,13 @@ class Endpoint_Germany(Endpoint_Requester):
 
     return df, last_updated
 
+
 # Examples to get cases and test the picture server
 ##### comment this out if you want to use it in production #####
-ger = Endpoint_Germany(file_server=True)
-print(ger.get_demographic("cases",split_sex=False))
+# ger = Endpoint_Germany(file_server=True)
+# print(ger.get_demographic("cases",split_sex=False))
+
+
 #df, updated = ger.get_history("deaths", as_df=True)
 # Examples to get yesterdays incidence
 #df2, updated = ger.get_history("incidence")
