@@ -223,8 +223,20 @@ class Endpoint_Germany(Endpoint_Requester):
       Valid options are: {self.valid_hospitalization_endpoints}")
       return None, None
 
+
     if as_df:
-      return self.to_df(json_data), last_updated
+      df = self.to_df(json_data)
+
+      # if the file server is used save the plot and serve it with a url
+      if self.use_plot_server:
+        # name of the plot will be the name of the metrics devided with a underscore
+        name = metric
+        # save to figure to ./plot and return the url to access the plot
+        url = self.save_plot(df, name)
+        return url
+      
+      # if the file server is not used
+      return df, last_updated
     else:
       return json_data, last_updated
     
@@ -240,6 +252,58 @@ class Endpoint_Germany(Endpoint_Requester):
     else:
       return [metric + "Male", metric + "Female"]
 
+  def combine_sex_metrics(self, df, metric):
+    """
+    Combines the values from female and male sub-metrics into one metric.
+
+    Parameters
+    ---
+    df
+    """
+    male, female = self.add_sex_to_metric(metric)
+    combined = df.loc[male] + df.loc[female]
+    return {metric: combined}
+
+  def plot_demographic_tree(self, df, metrics):
+    assert self.use_plot_server, "The flask server that exposes pictures as \
+      URLs is not used. Please don't run this function in that case."
+
+    male = [m for m in metrics if "Male" in m]
+    female = [m for m in metrics if "Female" in m]
+    # remove the "Female" from the female metrics to get the baseline metric name
+    basic_metric_name = [f.replace("Female", "") for f in female]
+    basic_metric_name = "".join(basic_metric_name)
+
+    # only use the data points for the according sex; 
+    # index 0 because it is a list of lists
+    x_male = df.loc[male].values[0]
+    x_female = df.loc[female].values[0]
+    y = df.columns
+
+    fig, axes = plt.subplots(ncols=2, sharey=True, figsize=(10, 5))
+
+    fig.suptitle(f"Demographic for {basic_metric_name}", fontsize=15, ha='center')
+    
+    #define male and female bars
+    axes[0].barh(y, x_male, align='center', color='blue')
+    axes[0].set(title='Male')
+    axes[1].barh(y, x_female, align='center', color='blue')
+    axes[1].set(title='Female')
+
+    # remove borders from both plots plot and draw vertical lines
+    for ax in axes:
+      ax.set_frame_on(False)
+      ax.grid(axis='x')
+
+    axes[0].yaxis.tick_right()
+    axes[0].set(yticks=range(len(y)), yticklabels=y)
+    axes[0].invert_xaxis()
+
+    # save the figure into the folder with the plots
+    out = f"plot/{basic_metric_name}.png"
+    fig.savefig(out)
+    return f"{self.plot_server}/{out}"
+
   def save_plot(self, df, name):
     """
     Saves the plot of the dataframe as 'name' and returns a URL to access the plot.
@@ -249,14 +313,14 @@ class Endpoint_Germany(Endpoint_Requester):
     : df (pd.DataFrame) : The dataframe that should be plotted.
     : name (str) : The name of the plot, when it is saved to a file.
     """
-    out = f"{self.plot_server}/plot/{name}.png"
+    out = f"plot/{name}.png"
     ax = df.plot()
     fig = ax.get_figure()
-    fig.savefig(name)
+    fig.savefig(out)
     # assuming that the picture_server.py is already running this URL will provide the plot that was just generated
-    return out
+    return f"{self.plot_server}/{out}"
 
-  def get_demographic(self, metric, split_sex=True, as_df=True):
+  def get_demographic(self, metric, split_sex=True):
     """
     Returns the current data of one or multiple Covid-19 metrics 
     in germany grouped by age groups and gender.
@@ -297,9 +361,16 @@ class Endpoint_Germany(Endpoint_Requester):
       print("Corrupted JSON couldn't read last update date")
       return None, None
     
+    # aggregate altered metric names here
+    metrics = []
+    
     if isinstance(metric, str) and metric in self.valid_demographic_endpoints:
       metrics = self.add_sex_to_metric(metric)
       df = df.loc[metrics]
+      
+      # create plot that doesn't split the plot into male and female (only works for one metric)
+      if not split_sex:
+        df = pd.DataFrame(self.combine_sex_metrics(df, metric))
 
     # check if all items from metric list are also in self.valid_demographic_endpoints
     elif isinstance(metric, list) and self.valid_list_items(metric, self.valid_demographic_endpoints):
@@ -309,6 +380,11 @@ class Endpoint_Germany(Endpoint_Requester):
         metrics.extend(self.add_sex_to_metric(m))
       df = df.loc[metrics]
 
+      if not split_sex:
+        # the combined values of male and female will be saved in here (works with multiple metrics)
+        combined_sex = [self.combine_sex_metrics(df, m) for m in metric]
+        df = pd.DataFrame(combined_sex)
+
     # if metric is invalid 
     else:
       return None, None
@@ -317,8 +393,13 @@ class Endpoint_Germany(Endpoint_Requester):
     if self.use_plot_server:
       # name of the plot will be the name of the metrics devided with a underscore
       name = f'{"_".join(metrics)}'
-      # save to figure to ./plot and return the url to access the plot
-      url = self.save_plot(df, name)
+      
+      # create a plot that compares male and female if split_sex is true
+      if split_sex:
+        url = self.plot_demographic_tree(df, metrics)
+      else:
+        # save to figure to ./plot and return the url to access the plot
+        url = self.save_plot(df, name)
       return url
 
     return df, last_updated
@@ -327,7 +408,9 @@ class Endpoint_Germany(Endpoint_Requester):
 # Examples to get cases and test the picture server
 ##### comment this out if you want to use it in production #####
 # ger = Endpoint_Germany(file_server=True)
-# print(ger.get_demographic("cases",split_sex=False))
+# print(ger.get_history("incidence"))
+# print(ger.get_demographic("cases", split_sex=True))
+
 
 
 #df, updated = ger.get_history("deaths", as_df=True)
