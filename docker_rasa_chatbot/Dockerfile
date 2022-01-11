@@ -16,7 +16,7 @@ USER root
 #     apt-get clean
 
 #Copy actions folder to working directory
-COPY actions /app/
+#COPY actions /app/
 #ADD actions/* /app/
 
 #Install extra requirements for actions code, if necessary (uncomment next line)

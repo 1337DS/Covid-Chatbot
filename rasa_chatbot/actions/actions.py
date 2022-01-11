@@ -27,12 +27,6 @@ from PIL import Image
 
 
 
-
-
-
-
-    
-
 class ActionIncidence(Action):
     
     def name(self) -> Text:
@@ -42,17 +36,11 @@ class ActionIncidence(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        ger = RKI_API.Endpoint_Germany()
+        ger = RKI_API.Endpoint_Germany(True)
         df2, updated = ger.get_history("incidence")
         result=df2['weekIncidence'][-1]
         print(result)
-    #    r = req.get("https://api.corona-zahlen.org/map/districts-legend")
-   #     img = Image.open(BytesIO(r.content))
-  #      bild=img.convert("RGB")
- #       bild.save("einjpgbild.jpg")
-#        dispatcher.utter_message(image=bild)
-
-        # dispatcher.utter_message(text=f"the incidence in germany is {result}")
+        dispatcher.utter_message(text=f"the incidence in germany is {result}")
 
         return []
     
@@ -60,17 +48,4 @@ class ActionIncidence(Action):
 
 
 
-class ActionLandkreise(Action):
-    
-    def name(self) -> Text:
-        return "landkreise_incidence_map"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        
-        r = req.get("https://api.corona-zahlen.org/map/districts-legend")
-        dispatcher.utter_message(image=r)
-
-        return []
     

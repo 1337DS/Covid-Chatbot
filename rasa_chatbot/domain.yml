@@ -11,11 +11,13 @@ intents:
   - test_incidence
   - incidence_by_town
   - 7_day_incidence
+  - landkreise_incidence_map
 
 actions:
   - give_test_incidence
   - give_incidence_by_town
   - give_7_day_incidence
+  - give_landkreise_incidence_map
 
 responses:
   # utter_incidence:

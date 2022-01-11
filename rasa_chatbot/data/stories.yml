@@ -34,12 +34,7 @@ stories:
   - intent: test_incidence
   - action: give_test_incidence
 
-- story: path abouth the time
-  steps:
-  - intent: time_question
-  - action: give_the_time
-
-- story: incidence_map
-  steps:
-  - intent: test_landkreise_incidence
-  - action: landkreise_incidence_map
+# - story: path abouth the time
+#   steps:
+#   - intent: time_question
+#   - action: give_the_time
