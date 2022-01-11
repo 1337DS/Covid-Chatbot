@@ -48,7 +48,7 @@ class ActionIncidence(Action):
         dispatcher.utter_message(image=url)
         dispatcher.utter_message(text=f"hier ist der link [this link]({url})")
         #dispatcher.utter_message(text=f"the incidence in germany is {result}")
-        dispatcher.utter_template(utter_info, tracker,link=url)
+        
 
         return []
     
