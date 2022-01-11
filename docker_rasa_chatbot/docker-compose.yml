@@ -1,0 +1,57 @@
+version: '3.4'
+services:
+  rasa:  
+    image: rasa/rasa:3.0.4-full
+    ports:   
+      - 5005:5005  
+    volumes:   
+      - ./:/app  
+      - ./models:/models
+    user: root
+    command:  
+      - run  
+      - -m  
+      - models   
+      - --enable-api  
+      - --cors   
+      - "*"  
+      - --debug   
+    # networks:
+    #   - specific-network-name
+  action_server:  
+    build: .
+    ports:  
+     - 5055:5055  
+    volumes:  
+      - ./actions:/app/actions  
+    command:
+     - start       
+# networks:
+#   specific-network-name:
+#     external: false
+#     name: specific-network-name
+
+
+
+  # action_server:  
+  #   image: rasa/rasa:2.6.3-full  
+  #   ports:   
+  #     - 5055:5055  
+  #   volumes:   
+  #     - ./:/app  
+  #     - ./models:/model
+  #   command:  
+  #     - run  
+  #     - actions  
+  #     - --cors   
+  #     - "*"  
+  #     - --debug   
+  #   depends_on:
+  #     - requirements
+
+  # requirements:
+  #   image: rasa/rasa:2.6.3-full 
+  #   volumes:
+  #     - ./:/app  
+  #     - ./models:/model
+  #   command: pip install -r requirements.txt

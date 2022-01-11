@@ -31,19 +31,6 @@ from PIL import Image
 
 
 
-class ActionTime(Action):
-
-    def name(self) -> Text:
-
-        return ("give_the_time")
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-        dispatcher.utter_message(text=f"{dt.now()}")
-
-        return []
     
 
 class ActionIncidence(Action):
@@ -59,11 +46,11 @@ class ActionIncidence(Action):
         df2, updated = ger.get_history("incidence")
         result=df2['weekIncidence'][-1]
         print(result)
-        r = req.get("https://api.corona-zahlen.org/map/districts-legend")
-        img = Image.open(BytesIO(r.content))
-        bild=img.convert("RGB")
-        bild.save("einjpgbild.jpg")
-        dispatcher.utter_message(image=bild)
+    #    r = req.get("https://api.corona-zahlen.org/map/districts-legend")
+   #     img = Image.open(BytesIO(r.content))
+  #      bild=img.convert("RGB")
+ #       bild.save("einjpgbild.jpg")
+#        dispatcher.utter_message(image=bild)
 
         # dispatcher.utter_message(text=f"the incidence in germany is {result}")
 
