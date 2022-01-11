@@ -46,7 +46,9 @@ class ActionIncidence(Action):
         #bild="http://localhost:4321/plot/incidence.png"
         #bild="https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png"
         dispatcher.utter_message(image=url)
+        dispatcher.utter_message(text=f"hier ist der link [this link]({url})")
         #dispatcher.utter_message(text=f"the incidence in germany is {result}")
+        dispatcher.utter_template(utter_info, tracker,link=url)
 
         return []
     

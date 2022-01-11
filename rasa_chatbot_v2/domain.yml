@@ -1,5 +1,7 @@
 version: "3.0"
-
+templates: 
+  utter_info: 
+    - text: Hier ist ein Link [link]{link}
 intents:
   - greet
   - goodbye
