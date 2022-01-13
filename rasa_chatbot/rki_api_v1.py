@@ -20,7 +20,7 @@ import asyncio
 import picture_server as server
 
 class Endpoint_Requester():
-  def __init__(self, endpoint, file_server: bool):
+  def __init__(self, endpoint, file_server: bool = True):
     self.base_url = "https://api.corona-zahlen.org"
     self.endpoint = endpoint # this must be definied by when the class is instanciated
     self.plot_server = "http://localhost:4321"
@@ -97,15 +97,31 @@ class Endpoint_Requester():
 
     return df
 
+  def save_plot(self, df, name):
+    """
+    Saves the plot of the dataframe as 'name' and returns a URL to access the plot.
+
+    Params:
+    ---
+    : df (pd.DataFrame) : The dataframe that should be plotted.
+    : name (str) : The name of the plot, when it is saved to a file.
+    """
+    out = f"plot/{name}.png"
+    ax = df.plot()
+    fig = ax.get_figure()
+    fig.savefig(out)
+    # assuming that the picture_server.py is already running this URL will provide the plot that was just generated
+    return f"{self.plot_server}/{out}"
+
 """## 2. Germany Endpoint"""
 
 class Endpoint_Germany(Endpoint_Requester):
-  def __init__(self, file_server: bool):
+  def __init__(self, file_server: bool = True):
     """
     Parameters:
     : file_server (bool) : If true the file server is started when an instance of this class is created.
     """
-    super().__init__("/germany", file_server)
+    super().__init__(endpoint="/germany",file_server=file_server)
     self.valid_history_endpoints = [
       "incidence", 
       "deaths",
@@ -304,22 +320,6 @@ class Endpoint_Germany(Endpoint_Requester):
     fig.savefig(out)
     return f"{self.plot_server}/{out}"
 
-  def save_plot(self, df, name):
-    """
-    Saves the plot of the dataframe as 'name' and returns a URL to access the plot.
-
-    Params:
-    ---
-    : df (pd.DataFrame) : The dataframe that should be plotted.
-    : name (str) : The name of the plot, when it is saved to a file.
-    """
-    out = f"plot/{name}.png"
-    ax = df.plot()
-    fig = ax.get_figure()
-    fig.savefig(out)
-    # assuming that the picture_server.py is already running this URL will provide the plot that was just generated
-    return f"{self.plot_server}/{out}"
-
   def get_demographic(self, metric, split_sex=True):
     """
     Returns the current data of one or multiple Covid-19 metrics 
@@ -404,12 +404,196 @@ class Endpoint_Germany(Endpoint_Requester):
 
     return df, last_updated
 
+class District_Endpoint(Endpoint_Requester):
+  def __init__(self):
+    # init function of Endpoint_Germany
+    # endpoint is changed later
+    super().__init__(file_server=True, endpoint="") 
+
+    # read available districts 
+    self.name_2_api_key = self.create_api_dict()
+
+    self.valid_history_endpoints = [
+      "cases",
+      "incidence", 
+      "deaths",
+      "recovered",
+      "frozen-incidence"
+    ]
+  
+  def create_api_dict(self):
+    """
+    Uses the API to construct a dictionary that has the name of the districts as 
+    keys and the "Allgemeiner Gemeinde Schlüssel" (ags) as values.
+    The ags is used to request metrics like cases and deaths only for a specific
+    district. The name of the district cannot be interpreted by the API.
+    """
+    distr = self.get_json(url_param="districts")
+    d = distr["data"]
+    distr_dict = {d[ags]["name"]: ags for ags in d}
+    return distr_dict
+
+  def search_distr(self, distr_name, ignore_capitalization=True):
+    """
+    Search the names of the available districts in germany.
+    
+    Parameters:
+    ---
+    : distr_name (str) : 
+    Name or part of the name of a district in germany.
+
+    : ignore_capitalization (bool) :
+    Whether to check case sensitive or ignore capitalization during the search.
+
+    Output
+    ---
+    : distr_names (list) : 
+    List of district names that contain the search term. 
+    Can be empty if there are no matches to the search term.
+    """
+    matches = []
+
+    if ignore_capitalization:
+      query = distr_name.lower()
+    else:
+      query = distr_name
+
+    for distr in self.name_2_api_key.keys():
+      if ignore_capitalization:
+        d = distr.lower()
+      else:
+        d = distr
+
+      if query in d:
+        matches.append(distr)
+    
+    return matches
+
+  def check_distr_exists(self, distr_name):
+    """
+    Check if a certain name of a district in germany exists.
+    Only perfect matches with correct whitespaces and capitalization are considered.
+    
+    Parameters:
+    ---
+    : distr_name : 
+    Query name of a district in germany.
+
+    Output
+    ---
+    : exists (bool) : 
+    Is true if the district name exists. Is False otherwise.
+    """
+    matches = self.search_distr(distr_name, ignore_capitalization=False)
+    if len(matches) == 1:
+      return True
+    else:
+      return False
+
+  def get_distr_history(self, distr_name, metric, days=None, as_df=True):
+    """
+    Returns the historic data of a Covid-19 metric in a district of germany.
+    An example what metric means in this context can be found below.
+    
+    Parameters:
+    ---
+    : distr_name : 
+    Name of a district in germany. The available districts can be searched with 
+    the search_distr() method.
+
+    :metric (str):
+    The name of a /districts/<distr_name>/history/<metric> endpoint.
+    Possible metric values are listed in the variable
+    self.valid_history_endpoints in the Germany_Endpoint class.
+
+    :hospitalization (str):
+    This parameter is the name of the hospitalization sub-metric.
+    Only use this if you use "hospitalization" for the 'metric' parameter.
+    If you don't provide a value, while using metric='hospitalization' 
+    you will get all sub-metrics.
+    Possible values are listed in the variable
+    self.valid_hospitalization_endpoints:
+    - "incidence7Days",
+    - "cases7Days"
+
+
+    :days (int): 
+    number of days that are requested from now into the past. 
+    Without providing a value all dates are requested.
+    
+    :as_df (bool): 
+    This function returns a pd.DataFrame if True. 
+    Otherwise it returns a dict.
+
+    Returns:
+    ---
+    (data, last_updated) or (None, None)
+    
+    :data (pd.DataFrame|dict): The received data value depends on parameter "as_df"
+    :last_updated (datetime): Date of the last update of that data
+    :None: in case of an error
+    """
+    assert distr_name in self.name_2_api_key.keys(), \
+    f"The district wasn't found you can use the function search_distr() to \
+    search for a specific district. Available districts are: {self.name_2_api_key.keys()}"
+    
+    # set the endpoint with the ags of the requested district
+    ags = self.name_2_api_key[distr_name]
+    
+    # enpoint for specific district (see in Endpoint_Requester why we need to set this here)
+    self.endpoint = f"/districts/{ags}"
+
+    # request the normal history function from the parent class
+    # The returned json is structured like so:
+    # data: [{"cases": (integer), "date": (datetime)}, ...],
+    # meta: {"lastUpdate": (datetime)}
+    if not metric in self.valid_history_endpoints:
+      print(f"You must provide a valid endpoint. \
+      Available endpoints are: {self.valid_history_endpoints}")
+      return
+
+    if isinstance(days, int):
+      days_param = f"/{days}"
+    else:
+      days_param = ""
+
+    # send json to get covid cases and use days if it was an integer
+    json = self.get_json(url_param=f"history/{metric}{days_param}")
+
+    try:
+      last_updated = json["meta"]["lastUpdate"]
+      json_data = json["data"][ags]["history"]
+    except:
+      print("Corrupted JSON couldn't read last update date")
+      return None, None
+
+    if as_df:
+      df = self.to_df(json_data)
+
+      # if the file server is used save the plot and serve it with a url
+      if self.use_plot_server:
+        # name of the plot will be the name of the metrics devided with a underscore
+        name = f"distr_{metric}"
+        # save to figure to ./plot and return the url to access the plot
+        url = self.save_plot(df, name)
+        return url
+
+      return df, last_updated
+    else:
+      return json_data, last_updated
+
+
+# Examples to test the district endpoint and test the picture server
+# de = District_Endpoint()
+# print("Searched for district mannheim", de.search_distr("mannheim"))
+# print("Checked for district Frankfurt am Main", de.check_distr_exists("Frankfurt am Main"))
+# print("URL to the district plo", de.get_distr_history("Frankfurt am Main", "cases"))
 
 # Examples to get cases and test the picture server
 ##### comment this out if you want to use it in production #####
-# ger = Endpoint_Germany(file_server=True)
-# print(ger.get_history("incidence"))
-# print(ger.get_demographic("cases", split_sex=True))
+ger = Endpoint_Germany(file_server=True)
+print(ger.get_history("incidence"))
+print(ger.get_demographic("cases", split_sex=True))
 
 
 
