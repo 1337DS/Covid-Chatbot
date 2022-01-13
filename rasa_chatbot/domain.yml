@@ -9,21 +9,25 @@ intents:
   - mood_unhappy
   - bot_challenge
   - test_incidence
-  - incidence_by_town
-  - 7_day_incidence
   - landkreise_incidence_map
+  - corona_symptoms
+  - day_incidence
 
 actions:
   - give_test_incidence
-  - give_incidence_by_town
-  - give_7_day_incidence
   - give_landkreise_incidence_map
+  - give_corona_symptoms
+  - give_day_incidence
 
 responses:
   # utter_incidence:
   # - text: 
   utter_greet:
-  - text: "Hey! How are you?"
+  - text:  "Hey, I'm Carl your corona assistant!  How can I help you?
+           \n you can ask me the following thing:
+           \n \u2022 dei tant
+           \n \u2022 dei onkel
+           \n \u2022 dei mudda"
 
   utter_cheer_up:
   - text: "Here is something to cheer you up:"

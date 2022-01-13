@@ -105,10 +105,34 @@ nlu:
 
 
 
-- intent: test_landkreise_incidence
+- intent: landkreise_incidence_map
   examples: |
     - whats the incidence map?
     - whats the incidence map of germany?
     - give me the map
+    - please show me the corona incidence map 
 
 
+
+- intent: corona_symptoms
+  examples: |
+    - symptoms for corona
+    - how to check if I have corona or not?
+    - what are the common symptoms for corona
+    - symptoms corona
+
+
+
+
+- intent: day_incidence
+  examples: |
+    - day incidence [1](number) in germany
+    - what is the incidence of the last [10](number) days
+
+
+
+
+- lookup: country
+  examples: |
+    - Afghanistan
+    - Germany

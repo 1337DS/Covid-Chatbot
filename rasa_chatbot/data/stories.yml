@@ -33,6 +33,18 @@ stories:
   steps:
   - intent: test_incidence
   - action: give_test_incidence
+  - intent: day_incidence
+  - action: give_day_incidence
+
+- story: path abouth a landkreis
+  steps:
+  - intent: landkreise_incidence_map
+  - action: give_landkreise_incidence_map
+
+- story: path abouth a syntoms
+  steps:
+  - intent: corona_symptoms
+  - action: give_corona_symptoms
 
 # - story: path abouth the time
 #   steps:
