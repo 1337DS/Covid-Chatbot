@@ -11,13 +11,24 @@ intents:
   - mood_unhappy
   - bot_challenge
   - test_incidence
+  - test_deaths
+  - corona_symptoms
+  - verify_corona_symptoms
   
 actions:
   - give_test_incidence
+  - give_deaths
+  - give_corona_symptoms
+  - give_verify_corona_symptoms
 
 responses:
   utter_greet:
-  - text: "Hey! How are you?"
+  - text: "Hey, I'm Carl your corona assistant!  How can I help you?
+           \n you can ask me the following thing:
+           \n \u2022 about the incidence.
+           \n \u2022 regarding the corona dead.
+           \n just test me and discover my functions"
+
 
   utter_cheer_up:
   - text: "Here is something to cheer you up:"
@@ -33,7 +44,12 @@ responses:
   - text: "Bye"
 
   utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
+  - text: "Hey, I'm Carl your corona assistant!  How can I help you?
+           \n you can ask me the following thing:
+           \n \u2022 about the incidence.
+           \n \u2022 regarding the corona dead.
+           \n just test me and discover my functions"
+
 
 session_config:
   session_expiration_time: 60

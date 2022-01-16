@@ -29,10 +29,23 @@ stories:
   - intent: deny
   - action: utter_goodbye
 
-- story: path abouth a test
+- story: path abouth incidence
   steps:
   - intent: test_incidence
   - action: give_test_incidence
+
+- story: path abouth deaths
+  steps:
+  - intent: test_deaths
+  - action: give_deaths
+
+
+- story: path abouth snytoms
+  steps:
+  - intent: corona_symptoms
+  - action: give_corona_symptoms
+  - intent: verify_corona_symptoms
+  - action: give_verify_corona_symptoms
 
 # - story: path abouth the time
 #   steps:

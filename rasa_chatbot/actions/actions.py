@@ -30,30 +30,32 @@ from rasa_sdk.executor import CollectingDispatcher
 
 
 
-class ActionIncidence(Action):
+# class ActionIncidence(Action):
     
-    def name(self) -> Text:
-        return "give_test_incidence"
+#     def name(self) -> Text:
+#         return "give_test_incidence"
 
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+#     def run(self, dispatcher: CollectingDispatcher,
+#             tracker: Tracker,
+#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        #ger = RKI_API.Endpoint_Germany()
-        #df2, updated = ger.get_history("incidence")
-        #result=df2['weekIncidence'][-1]
-        #print(result)
-        result="too high"
-        #r = req.get("https://api.corona-zahlen.org/map/districts-legend")
-        #img = Image.open(BytesIO(r.content))
-        #bild=img.convert("RGB")
-        #bild.save("einjpgbild.jpg")
+#         #ger = RKI_API.Endpoint_Germany()
+#         #df2, updated = ger.get_history("incidence")
+#         #result=df2['weekIncidence'][-1]
+#         #print(result)
         
-        #dispatcher.utter_message(image=bild)
+#         #r = req.get("https://api.corona-zahlen.org/map/districts-legend")
+#         #img = Image.open(BytesIO(r.content))
+#         #bild=img.convert("RGB")
+#         #bild.save("einjpgbild.jpg")
+        
+#         #dispatcher.utter_message(image=bild)
 
-        dispatcher.utter_message(text=f" {result}")
 
-        return []
+#         result="too high"       
+#         dispatcher.utter_message(text=f" {result}")
+
+#         return []
 
     
 
@@ -108,7 +110,8 @@ class ActionCoronaSyntoms(Action):
            \n\u2022 loss of speech or movement
            \nSeek immediate medical attention if you have serious symptoms. Always call before visiting your doctor or health facility.
            \nPeople with mild symptoms who are otherwise healthy should manage their symptoms at home.
-           \nOn average it takes 5–6 days from when someone is infected with the virus for symptoms to show, however it can take up to 14 days.""")
+           \nOn average it takes 5–6 days from when someone is infected with the virus for symptoms to show, however it can take up to 14 days.
+           \nfor more informations you can click [here](https://www.who.int/health-topics/coronavirus)""")
 
         return []
     
@@ -144,7 +147,7 @@ class ActionCoronaSyntoms(Action):
 class ActionDayIncidence(Action):
     
     def name(self) -> Text:
-        return "give_day_incidence"
+        return "give_test_incidence"
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
