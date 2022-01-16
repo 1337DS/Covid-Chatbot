@@ -71,14 +71,12 @@ class ActionDeaths(Action):
 class ActionCoronaSyntoms(Action):
     
     def name(self) -> Text:
-        return "give_corona_symptoms"
+        return "give_verify_corona_symptoms"
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         
-        #r = req.get("https://api.corona-zahlen.org/map/districts-legend")
-        #dispatcher.utter_message(image=r)
         dispatcher.utter_message(text="""COVID-19 affects different people in different ways. \nMost infected people will develop mild to moderate illness and recover without hospitalization.
            \n \u2022 Most common symptoms:
            \n \u2022 fever
@@ -102,6 +100,25 @@ class ActionCoronaSyntoms(Action):
            \nfor more informations you can click [here](https://www.who.int/health-topics/coronavirus)""")
 
         return []
+
+
+###nennt dir alle corona symptome    
+class ActionCoronaSyntoms(Action):
+    
+    def name(self) -> Text:
+        return "give_corona_symptoms"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        dispatcher.utter_message(text="""if you suspect you have corona you can do the following:
+           \n \u2022 do a PCR or a quick test.
+           \n \u2022 alert your GP and make an appointment
+           \n \u2022 You can find more information under the following link [here](https://www.who.int/health-topics/coronavirus)""")
+
+        return []
+
 
 
 ##hier kommt der plot raus und als zweites link(geht noch nicht)
