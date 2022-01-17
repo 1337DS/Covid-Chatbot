@@ -29,15 +29,30 @@ stories:
   - intent: deny
   - action: utter_goodbye
 
+
+
 - story: path abouth incidence
   steps:
   - intent: test_incidence
   - action: give_test_incidence
 
+
+- story: path abouth incidence in landkreis
+  steps:
+  - intent: test_specific_landkreise_incidence
+  - action: give_n_landkreis_incidence
+
+
 - story: path abouth deaths
   steps:
   - intent: test_deaths
   - action: give_deaths
+
+
+- story: path abouth plot incidence
+  steps:
+  - intent: incidence_all_plot
+  - action: give_incidence_all_plot
 
 
 - story: path abouth snytoms

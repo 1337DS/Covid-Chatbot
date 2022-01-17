@@ -61,7 +61,7 @@ from rasa_sdk.executor import CollectingDispatcher
 
 
 
-class ActionLandkreise(Action):
+class ActionLandkreiseMap(Action):
     
     def name(self) -> Text:
         return "give_landkreise_incidence_map"
@@ -155,14 +155,17 @@ class ActionDayIncidence(Action):
         
         
         user_message_entity = tracker.latest_message['entities']
-        context = ""
+        ent = ""
         for entity in user_message_entity:
             ent = entity['value'].title()
 
+        if ent!="":
 
-        print(ent)
-        result=ent
-   
-        dispatcher.utter_message(text=f"entity: {result}")
+            print(ent)
+            result=ent
+    
+            dispatcher.utter_message(text=f"entity: {result}")
+        
+        else
 
         return []

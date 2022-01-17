@@ -36,32 +36,101 @@ class ActionIncidence(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        ger = RKI_API.Endpoint_Germany(False)
-        df2, updated = ger.get_history("incidence")
-        result=df2['weekIncidence'][-1]
-        print(result)
-        dispatcher.utter_message(text=f"the incidence in germany is: {round(result, 2)} COVID-19 cases per 100'000 population")
+
+        user_message_entity = tracker.latest_message['entities']
+        ent = ""
+        for entity in user_message_entity:
+            ent = entity['value'].title()
+
+        if ent!="":
+
+
+            try:
+                ent=int(ent)
+            except:
+                pass
+
+            print(ent)
+            print(type(ent))
+
+            if isinstance(ent,int):
+                #dispatcher.utter_message(text=f"entity: {ent}")
+                ger = RKI_API.Endpoint_Germany(False)
+                df2, updated = ger.get_history("incidence")
+                result=np.mean(df2['weekIncidence'][-ent:])
+                print(result)
+                dispatcher.utter_message(text=f"the mean incidence in germany of the last {ent} days is: {round(result, 2)} COVID-19 cases per 100'000 population")
+
+            else:
+                dispatcher.utter_message(text=f"(beta carl): try the same command with init")
+
+
+        else:
+            ger = RKI_API.Endpoint_Germany(False)
+            df2, updated = ger.get_history("incidence")
+            result=df2['weekIncidence'][-1]
+            print(result)
+            dispatcher.utter_message(text=f"the incidence in germany is: {round(result, 2)} COVID-19 cases per 100'000 population")
+        
         
 
         return []
 
-# class ActionIncidence(Action):
+
+##hier kommt der plot raus und als zweites link(geht noch nicht)
+
+class ActionIncidenceAllPlot(Action):
     
-#     def name(self) -> Text:
-#         return "give_test_incidence"
+    def name(self) -> Text:
+        return "give_incidence_all_plot"
 
-#     def run(self, dispatcher: CollectingDispatcher,
-#             tracker: Tracker,
-#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-#         ger = RKI_API.Endpoint_Germany(False)
-#         df2, updated = ger.get_history("incidence")
-#         result=df2['weekIncidence'][-1]
-#         print(result)
-#         dispatcher.utter_message(text=f"the incidence in germany is: {round(result, 2)} COVID-19 cases per 100'000 population")
+        ger = RKI_API.Endpoint_Germany(True)
+        url=ger.get_history("incidence")
+        print(url)
+        dispatcher.utter_message(image=url)
+        dispatcher.utter_message(text=f"hier ist der link [this link]({url})")
         
 
-#         return []
+        return []
+
+
+
+###ruft die inzidenz eines spezifischen Landkreises ab
+class ActionIncidenceLandkreis(Action):
+    
+    def name(self) -> Text:
+        return "give_n_landkreis_incidence"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        # ger = RKI_API.Endpoint_Germany(False)
+        # df2, updated = ger.get_history("incidence")
+        # result=df2['weekIncidence'][-1]
+        # print(result)
+
+
+        user_message_entity = tracker.latest_message['entities']
+        context = ""
+        for entity in user_message_entity:
+            ent = entity['value'].title()
+
+
+        print(ent)
+        result=ent
+   
+        dispatcher.utter_message(text=f"entity: {result}")
+        
+        #dispatcher.utter_message(text=f"the Landkreis (entity landkreis) has an incidence of (api landkreis inzidenz) COVID-19 cases per 100'000 population")
+        
+        return []
+
+
     
     
 ###wie viele corona tote es letzte woche gab 
@@ -141,22 +210,4 @@ class ActionVerifyCoronaSyntoms(Action):
 
 
 
-##hier kommt der plot raus und als zweites link(geht noch nicht)
 
-# class ActionIncidence(Action):
-    
-#     def name(self) -> Text:
-#         return "give_test_incidence"
-
-#     def run(self, dispatcher: CollectingDispatcher,
-#             tracker: Tracker,
-#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-#         ger = RKI_API.Endpoint_Germany(True)
-#         url=ger.get_history("incidence")
-#         print(url)
-#         dispatcher.utter_message(image=url)
-#         dispatcher.utter_message(text=f"hier ist der link [this link]({url})")
-        
-
-#         return []

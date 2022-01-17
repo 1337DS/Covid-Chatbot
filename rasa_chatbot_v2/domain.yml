@@ -2,6 +2,7 @@ version: "3.0"
 templates: 
   utter_info: 
     - text: Hier ist ein Link [link]{link}
+
 intents:
   - greet
   - goodbye
@@ -14,12 +15,16 @@ intents:
   - test_deaths
   - corona_symptoms
   - verify_corona_symptoms
+  - test_specific_landkreise_incidence
+  - incidence_all_plot
   
 actions:
   - give_test_incidence
   - give_deaths
   - give_corona_symptoms
   - give_verify_corona_symptoms
+  - give_n_landkreis_incidence
+  - give_incidence_all_plot
 
 responses:
   utter_greet:
@@ -47,7 +52,10 @@ responses:
   - text: "Hey, I'm Carl your corona assistant!  How can I help you?
            <br> you can ask me the following thing:
            <br> \u2022 about the incidence.
+           <br> \u2022 about the symptoms.
            <br> \u2022 regarding the corona dead.
+           <br> and much more...
+           <br>
            <br> Just test me and discover my functions"
 
 
