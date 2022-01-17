@@ -23,11 +23,11 @@ actions:
 
 responses:
   utter_greet:
-  - text: "Hey, I'm Carl your corona assistant!  How can I help you?
-           \n you can ask me the following thing:
-           \n \u2022 about the incidence.
-           \n \u2022 regarding the corona dead.
-           \n just test me and discover my functions"
+  - text: "Hey, I'm Carl your corona assistant!  How can I help you? \n
+           \n you can ask me the following thing: \n
+           \n \u2022 about the incidence. \n
+           \n \u2022 regarding the corona dead. \n
+           \n just test me and discover my functions" 
 
 
   utter_cheer_up:
@@ -54,3 +54,8 @@ responses:
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
+
+
+entities:
+- number
+- landkreis_api

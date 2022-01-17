@@ -23,11 +23,7 @@ responses:
   # utter_incidence:
   # - text: 
   utter_greet:
-  - text:  "Hey, I'm Carl your corona assistant!  How can I help you?
-           \n you can ask me the following thing:
-           \n \u2022 dei tant
-           \n \u2022 dei onkel
-           \n \u2022 dei mudda"
+  - text:  "xx"
 
   utter_cheer_up:
   - text: "Here is something to cheer you up:"

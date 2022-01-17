@@ -71,51 +71,52 @@ class ActionDeaths(Action):
 class ActionCoronaSyntoms(Action):
     
     def name(self) -> Text:
-        return "give_verify_corona_symptoms"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        
-        dispatcher.utter_message(text="""COVID-19 affects different people in different ways. \nMost infected people will develop mild to moderate illness and recover without hospitalization.
-           \n \u2022 Most common symptoms:
-           \n \u2022 fever
-           \n \u2022 dry cough
-           \n \u2022 tiredness
-           \nLess common symptoms:
-           \n\u2022 aches and pains
-           \n\u2022 sore throat
-           \n\u2022 diarrhoea
-           \n\u2022 conjunctivitis
-           \n\u2022 headache
-           \n\u2022 loss of taste or smell
-           \n\u2022 a rash on skin, or discolouration of fingers or toes
-           \nSerious symptoms:
-           \n\u2022 difficulty breathing or shortness of breath
-           \n\u2022 chest pain or pressure
-           \n\u2022 loss of speech or movement
-           \nSeek immediate medical attention if you have serious symptoms. Always call before visiting your doctor or health facility.
-           \nPeople with mild symptoms who are otherwise healthy should manage their symptoms at home.
-           \nOn average it takes 5–6 days from when someone is infected with the virus for symptoms to show, however it can take up to 14 days.
-           \nfor more informations you can click [here](https://www.who.int/health-topics/coronavirus)""")
-
-        return []
-
-
-###nennt dir alle corona symptome    
-class ActionCoronaSyntoms(Action):
-    
-    def name(self) -> Text:
         return "give_corona_symptoms"
 
     def run(self, dispatcher: CollectingDispatcher,
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         
+        dispatcher.utter_message(text="""COVID-19 affects different people in different ways. <br>Most infected people will develop mild to moderate illness and recover without hospitalization.
+           <br>\u2022 Most common symptoms:
+           <br>\u2022 fever
+           <br>\u2022 dry cough
+           <br>\u2022 tiredness
+           <br>Less common symptoms:
+           <br>\u2022 aches and pains
+           <br>\u2022 sore throat
+           <br>\u2022 diarrhoea
+           <br>\u2022 conjunctivitis
+           <br>\u2022 headache
+           <br>\u2022 loss of taste or smell
+           <br>\u2022 a rash on skin, or discolouration of fingers or toes
+           <br>
+           <br>Serious symptoms:
+           <br>\u2022 difficulty breathing or shortness of breath
+           <br>\u2022 chest pain or pressure
+           <br>\u2022 loss of speech or movement
+           <br>Seek immediate medical attention if you have serious symptoms. Always call before visiting your doctor or health facility.
+           <br>People with mild symptoms who are otherwise healthy should manage their symptoms at home.
+           <br>On average it takes 5–6 days from when someone is infected with the virus for symptoms to show, however it can take up to 14 days.
+           <br>\u2022 For more informations you can check the<a href='https://www.who.int/health-topics/coronavirus'>link</a>""")
+
+        return []
+
+
+###nennt dir alle corona symptome    
+class ActionVerifyCoronaSyntoms(Action):
+    
+    def name(self) -> Text:
+        return "give_verify_corona_symptoms"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
         dispatcher.utter_message(text="""if you suspect you have corona you can do the following:
-           \n \u2022 do a PCR or a quick test.
-           \n \u2022 alert your GP and make an appointment
-           \n \u2022 You can find more information under the following link [here](https://www.who.int/health-topics/coronavirus)""")
+           <br> \u2022 do a PCR or a quick test.
+           <br> \u2022 alert your GP and make an appointment
+           <br> \u2022 You can find more information under the following <a href='https://www.who.int/health-topics/coronavirus'>link here</a>""")
 
         return []
 
