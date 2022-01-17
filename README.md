@@ -8,7 +8,7 @@ API running: :heavy_check_mark:
 
 Rasa connected: :heavy_check_mark:  
 
-Working Functions: 1
+Working Functions: +6
 
 GUI: :heavy_check_mark:  
 
@@ -25,6 +25,8 @@ Docker Deployment: in progress
 
 
 ## Installation Instructions:
+install rasa
+install ner_crf
 *Start rasa*
 rasa run -m models --enable-api --cors "*" --debug
 *Start actionserver*
