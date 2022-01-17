@@ -37,6 +37,18 @@ pipeline:
   - name: DIETClassifier
     epochs: 100
     constrain_similarities: true
+  - name: "ner_crf"
+    BILOU_flag: true
+    features:
+      # features for word before token
+      - ["low", "title", "upper", "pos", "pos2"]
+      # features of token itself
+      - [“bias”, “low”, “prefix5”, “prefix2”,“suffix5”, “suffix3”, “suffix2”,“digit”,“upper”, “title”, “pattern”]
+      # features for word after the token we want to tag
+      - ["low", "title", "upper", "pos", "pos2"]
+    max_iterations: 50
+    L1_c: 1
+    L2_c: 1e-3
   - name: EntitySynonymMapper
   - name: ResponseSelector
     epochs: 100

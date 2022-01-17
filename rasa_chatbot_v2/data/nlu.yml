@@ -151,6 +151,16 @@ nlu:
     - whats the incidence of [Mannheim](landkreis_api)?
     - tell me the incidencen in [Mannheim](landkreis_api)
     - give me the [Mannheim](landkreis_api) incidence
+    - whats the incidence of [Heidelberg](landkreis_api)?
+    - tell me the incidencen in [Heidelberg](landkreis_api)
+    - give me the [Heidelberg](landkreis_api) incidence
+    - whats the incidence of [Berlin Spandau](landkreis_api)?
+    - tell me the incidencen in [Cottbus](landkreis_api)
+    - give me the [Berlin Spandau](landkreis_api) incidence
+    - whats the incidence of [Teltow-Fläming](landkreis_api)?
+    - tell me the incidencen in [St. Wendel](landkreis_api)
+    - give me the [Berlin Tempelhof-Schöneberg](landkreis_api) incidence
+
 
 
 - lookup: landkreis_api

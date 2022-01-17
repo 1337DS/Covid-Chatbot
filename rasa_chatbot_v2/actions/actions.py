@@ -92,7 +92,7 @@ class ActionIncidenceAllPlot(Action):
         url=ger.get_history("incidence")
         print(url)
         dispatcher.utter_message(image=url)
-        dispatcher.utter_message(text=f"hier ist der link [this link]({url})")
+        #dispatcher.utter_message(text=f"hier ist der link [this link]({url})")
         
 
         return []
