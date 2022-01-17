@@ -55,6 +55,12 @@ stories:
   - action: give_incidence_all_plot
 
 
+- story: path abouth map incidence
+  steps:
+  - intent: test_landkreise_incidence
+  - action: give_landkreise_incidence
+
+
 - story: path abouth snytoms
   steps:
   - intent: corona_symptoms

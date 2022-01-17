@@ -581,7 +581,8 @@ nlu:
 
 - intent: incidence_all_plot
   examples: |
-    - show me the incidence in a plot
-
+    - show me the incidence plot
+    - show me the incidence in germany on a plot
+    - whats the germany incidence plot?
 
 

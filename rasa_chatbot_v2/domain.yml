@@ -17,6 +17,7 @@ intents:
   - verify_corona_symptoms
   - test_specific_landkreise_incidence
   - incidence_all_plot
+  - test_landkreise_incidence
   
 actions:
   - give_test_incidence
@@ -25,6 +26,7 @@ actions:
   - give_verify_corona_symptoms
   - give_n_landkreis_incidence
   - give_incidence_all_plot
+  - give_landkreise_incidence
 
 responses:
   utter_greet:

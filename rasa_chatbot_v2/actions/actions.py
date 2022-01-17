@@ -77,7 +77,7 @@ class ActionIncidence(Action):
         return []
 
 
-##hier kommt der plot raus und als zweites link(geht noch nicht)
+
 
 class ActionIncidenceAllPlot(Action):
     
@@ -98,7 +98,7 @@ class ActionIncidenceAllPlot(Action):
         return []
 
 
-
+###muss noch gemacht werden
 ###ruft die inzidenz eines spezifischen Landkreises ab
 class ActionIncidenceLandkreis(Action):
     
@@ -154,7 +154,6 @@ class ActionDeaths(Action):
         return []
     
 
-
 ###nennt dir alle corona symptome    
 class ActionCoronaSyntoms(Action):
     
@@ -191,7 +190,7 @@ class ActionCoronaSyntoms(Action):
         return []
 
 
-###nennt dir alle corona symptome    
+###nennt dir alle corona nachweise     
 class ActionVerifyCoronaSyntoms(Action):
     
     def name(self) -> Text:
@@ -209,5 +208,40 @@ class ActionVerifyCoronaSyntoms(Action):
         return []
 
 
+####map aller langkreise in de mit corona inzidenz
+class ActionLandkreiseMap(Action):
+    
+    def name(self) -> Text:
+        return "give_landkreise_incidence"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        # r = req.get("https://api.corona-zahlen.org/map/districts-legend")
+        # dispatcher.utter_message(image=r)
+        # #dispatcher.utter_message(text="map")
+
+        # return []
 
 
+        # r = req.get("https://api.corona-zahlen.org/map/districts-legend")
+        # img = Image.open(BytesIO(r.content))
+        # bild=img.convert("RGB")
+        # bild.save("einjpgbild.jpg")
+        
+        # dispatcher.utter_message(image=bild)
+
+        bild=("https://api.corona-zahlen.org/map/districts-legend")
+        dispatcher.utter_message(image=bild)
+
+
+
+        # ger = RKI_API.Endpoint_Germany(True)
+        # url=ger.get_history("incidence")
+        # print(url)
+        # dispatcher.utter_message(image=url)
+        # #dispatcher.utter_message(text=f"hier ist der link [this link]({url})")
+        
+
+        return []
