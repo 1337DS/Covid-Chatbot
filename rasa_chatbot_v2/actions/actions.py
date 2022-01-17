@@ -44,6 +44,25 @@ class ActionIncidence(Action):
         
 
         return []
+
+# class ActionIncidence(Action):
+    
+#     def name(self) -> Text:
+#         return "give_test_incidence"
+
+#     def run(self, dispatcher: CollectingDispatcher,
+#             tracker: Tracker,
+#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+#         ger = RKI_API.Endpoint_Germany(False)
+#         df2, updated = ger.get_history("incidence")
+#         result=df2['weekIncidence'][-1]
+#         print(result)
+#         dispatcher.utter_message(text=f"the incidence in germany is: {round(result, 2)} COVID-19 cases per 100'000 population")
+        
+
+#         return []
+    
     
 ###wie viele corona tote es letzte woche gab 
 class ActionDeaths(Action):
