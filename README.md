@@ -25,6 +25,8 @@ Docker Deployment: in progress
 
 
 ## Installation Instructions:
+install rasa
+install ner_crf
 *Start rasa*
 rasa run -m models --enable-api --cors "*" --debug
 *Start actionserver*
