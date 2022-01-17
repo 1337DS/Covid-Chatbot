@@ -8,7 +8,7 @@ API running: :heavy_check_mark:
 
 Rasa connected: :heavy_check_mark:  
 
-Working Functions: 1
+Working Functions: +6
 
 GUI: :heavy_check_mark:  
 
