@@ -117,27 +117,31 @@ class ActionIncidenceLandkreis(Action):
 
         user_message_entity = tracker.latest_message['entities']
         context = ""
+
+        ent = None
         for entity in user_message_entity:
             ent = entity['value'].title()
-
-        # get the incidence for the landkreis entity, dont use plots
-        dist = RKI_API.District_Endpoint(file_server=False)
-        if dist.check_distr_exists(ent):
-            df, updated = dist.get_distr_history(ent, "incidence")
-            result = df['weekIncidence'][-1]
-            result = round(result, 2)
-            text = f"The weekly COVID-19 incidence in {ent} is {result}"
+        if ent is None:
+            dispatcher.utter_message(text="I didn't find a district in your question. Please try again with a longer sentence. ")
         else:
-            # get list of similar districts
-            similar_distr = dist.search_distr(ent, ignore_capitalization=True)
-            if len(similar_distr) != 0:
-                text = f"I didn't find '{ent}', but I know:"
-                for distr in similar_distr:
-                    text += f"\n- {distr}"
+            # get the incidence for the landkreis entity, dont use plots
+            dist = RKI_API.District_Endpoint(file_server=False)
+            if dist.check_distr_exists(ent):
+                df, updated = dist.get_distr_history(ent, "incidence")
+                result = df['weekIncidence'][-1]
+                result = round(result, 2)
+                text = f"The weekly COVID-19 incidence in {ent} is {result}"
             else:
-                text="I didn't find {ent} in my code base 😕"
-   
-        dispatcher.utter_message(text=text)
+                # get list of similar districts
+                similar_distr = dist.search_distr(ent, ignore_capitalization=True)
+                if len(similar_distr) != 0:
+                    text = f"I didn't find '{ent}', but I know:"
+                    for distr in similar_distr:
+                        text += f"\n- {distr}"
+                else:
+                    text=f"I didn't find {ent} in my code base 😕"
+    
+            dispatcher.utter_message(text=text)
         
         return []
 
@@ -152,28 +156,31 @@ class ActionDeathsLandkreis(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
         user_message_entity = tracker.latest_message['entities']
-
+        
+        ent = None
         for entity in user_message_entity:
             ent = entity['value'].title()
-
-        # get the deaths for the landkreis entity, dont use plots
-        dist = RKI_API.District_Endpoint(file_server=False)
-        if dist.check_distr_exists(ent):
-            df, updated = dist.get_distr_history(ent, "deaths")
-            result = sum(df['deaths'][-7:])
-            result = round(result, 2)
-            text = f"There were {result} corona deaths in {ent} last week"
+        if ent is None:
+            dispatcher.utter_message(text="I didn't find a district in your question. Please try again with a longer sentence. ")
         else:
-            # get list of similar districts
-            similar_distr = dist.search_distr(ent, ignore_capitalization=True)
-            if len(similar_distr) != 0:
-                text = f"I didn't find '{ent}', but I know:"
-                for distr in similar_distr:
-                    text += f"\n- {distr}"
+            # get the deaths for the landkreis entity, dont use plots
+            dist = RKI_API.District_Endpoint(file_server=False)
+            if dist.check_distr_exists(ent):
+                df, updated = dist.get_distr_history(ent, "deaths")
+                result = sum(df['deaths'][-7:])
+                result = round(result, 2)
+                text = f"There were {result} corona deaths in {ent} last week"
             else:
-                text="I didn't find {ent} in my code base 😕"
-   
-        dispatcher.utter_message(text=text)
+                # get list of similar districts
+                similar_distr = dist.search_distr(ent, ignore_capitalization=True)
+                if len(similar_distr) != 0:
+                    text = f"I didn't find '{ent}', but I know:"
+                    for distr in similar_distr:
+                        text += f"\n- {distr}"
+                else:
+                    text=f"I didn't find {ent} in my code base 😕"
+    
+            dispatcher.utter_message(text=text)
         
         #dispatcher.utter_message(text=f"the Landkreis (entity landkreis) has an incidence of (api landkreis inzidenz) COVID-19 cases per 100'000 population")
         
