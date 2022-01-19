@@ -130,7 +130,7 @@ class ActionIncidenceLandkreis(Action):
             result = "Unknown, due to internal error"
 
         print(ent)
-        result=ent
+        #result=ent
    
         dispatcher.utter_message(text=f"The incidence in {ent} is {result}")
         
