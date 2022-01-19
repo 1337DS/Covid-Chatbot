@@ -42,7 +42,11 @@ Johannes Damke
 Killian Ebi  
 
 
+## some evaluations 
 
-
+![CRFEntityExtractor_confusion_matrix](https://user-images.githubusercontent.com/77493377/150163110-d96783e9-4ffc-4537-acaa-847050161655.png)
+![CRFEntityExtractor_histogram](https://user-images.githubusercontent.com/77493377/150163119-e4829812-0448-4d34-8474-b95094213a58.png)
+![intent_confusion_matrix](https://user-images.githubusercontent.com/77493377/150163122-2203c17d-6f21-47e4-886b-44b192e2ba3b.png)
+![intent_histogram](https://user-images.githubusercontent.com/77493377/150163142-b965cedb-ae13-4e7f-80c3-239bc81df46b.png)
 
 
