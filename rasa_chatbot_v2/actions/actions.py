@@ -120,11 +120,19 @@ class ActionIncidenceLandkreis(Action):
         for entity in user_message_entity:
             ent = entity['value'].title()
 
+        # get the incidence for the landkreis entity, dont use plots
+        dist = RKI_API.District_Endpoint(file_server=False)
+        if dist.check_distr_exists(ent):
+            df, updated = dist.get_distr_history(ent, "incidence")
+            result = df['weekIncidence'][-1]
+            result = round(result, 2)
+        else:
+            result = "Unknown, due to internal error"
 
         print(ent)
         result=ent
    
-        dispatcher.utter_message(text=f"entity: {result}")
+        dispatcher.utter_message(text=f"The incidence in {ent} is {result}")
         
         #dispatcher.utter_message(text=f"the Landkreis (entity landkreis) has an incidence of (api landkreis inzidenz) COVID-19 cases per 100'000 population")
         
