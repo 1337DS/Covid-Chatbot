@@ -126,20 +126,58 @@ class ActionIncidenceLandkreis(Action):
             df, updated = dist.get_distr_history(ent, "incidence")
             result = df['weekIncidence'][-1]
             result = round(result, 2)
+            text = f"The weekly COVID-19 incidence in {ent} is {result}"
         else:
-            result = "Unknown, due to internal error"
-
-        print(ent)
-        #result=ent
+            # get list of similar districts
+            similar_distr = dist.search_distr(ent, ignore_capitalization=True)
+            if len(similar_distr) != 0:
+                text = f"I didn't find '{ent}', but I know:"
+                for distr in similar_distr:
+                    text += f"\n- {distr}"
+            else:
+                text="I didn't find {ent} in my code base 😕"
    
-        dispatcher.utter_message(text=f"The incidence in {ent} is {result}")
+        dispatcher.utter_message(text=text)
+        
+        return []
+
+##### NEW district actions #####
+class ActionDeathsLandkreis(Action):
+    
+    def name(self) -> Text:
+        return "give_n_landkreis_deaths"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        user_message_entity = tracker.latest_message['entities']
+
+        for entity in user_message_entity:
+            ent = entity['value'].title()
+
+        # get the deaths for the landkreis entity, dont use plots
+        dist = RKI_API.District_Endpoint(file_server=False)
+        if dist.check_distr_exists(ent):
+            df, updated = dist.get_distr_history(ent, "deaths")
+            result = sum(df['deaths'][-7:])
+            result = round(result, 2)
+            text = f"There were {result} corona deaths in {ent} last week"
+        else:
+            # get list of similar districts
+            similar_distr = dist.search_distr(ent, ignore_capitalization=True)
+            if len(similar_distr) != 0:
+                text = f"I didn't find '{ent}', but I know:"
+                for distr in similar_distr:
+                    text += f"\n- {distr}"
+            else:
+                text="I didn't find {ent} in my code base 😕"
+   
+        dispatcher.utter_message(text=text)
         
         #dispatcher.utter_message(text=f"the Landkreis (entity landkreis) has an incidence of (api landkreis inzidenz) COVID-19 cases per 100'000 population")
         
         return []
-
-
-    
     
 ###wie viele corona tote es letzte woche gab 
 class ActionDeaths(Action):
