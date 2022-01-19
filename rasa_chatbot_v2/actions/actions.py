@@ -70,7 +70,7 @@ class ActionIncidence(Action):
             df2, updated = ger.get_history("incidence")
             result=df2['weekIncidence'][-1]
             print(result)
-            dispatcher.utter_message(text=f"the incidence in germany is: {round(result, 2)} COVID-19 cases per 100'000 population")
+            dispatcher.utter_message(text=f"the incidence in germany is: {int(result)} COVID-19 cases per 100'000 population")
         
         
 
@@ -92,7 +92,7 @@ class ActionIncidenceAllPlot(Action):
         url=ger.get_history("incidence")
         print(url)
         dispatcher.utter_message(image=url)
-        #dispatcher.utter_message(text=f"hier ist der link [this link]({url})")
+        dispatcher.utter_message(text=f"hier ist der <a href= {url}>link</a>")
         
 
         return []
