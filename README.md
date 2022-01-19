@@ -3,6 +3,10 @@ The chatbot should answer the questions of the user to topics concerning Covid-1
 
 The bot will display r-index and similar up-to-date statistics as well as information on how to prevent and cope with covid. A focus of the bot is on creating statistics as plots. To achieve this the text input is interpreted and reasonable x and y-axis labels are applied. The data for the plot is received through APIs from credible sources like the Robert Koch Institute.
 
+## Screencast
+
+https://user-images.githubusercontent.com/77493377/150161105-5233421c-d4e4-45ea-b6e3-c74d02b8a443.mp4
+
 
 ## possible questions for Carl 
 
@@ -13,6 +17,7 @@ Give me the incidence map of Germany?
 What are Covid-19 symptoms?
 How many died last week?
 I think i have corona
+
 
 
 ## Installation Instructions:
@@ -35,5 +40,9 @@ Dominic Viola
 Jendrik Hülsmeyer  
 Johannes Damke  
 Killian Ebi  
+
+
+
+
 
 
