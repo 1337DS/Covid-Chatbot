@@ -8,7 +8,7 @@ The bot will display r-index and similar up-to-date statistics as well as inform
 https://user-images.githubusercontent.com/77493377/150161105-5233421c-d4e4-45ea-b6e3-c74d02b8a443.mp4
 
 
-## possible questions for Carl 
+## Possible questions for Carl 
 
 Whats the incidence in Germany?
 Whats the incidence in Mannheim?
@@ -18,6 +18,7 @@ What are Covid-19 symptoms?
 How many died last week?
 I think i have corona
 
+In case Carl doesnt recognize your request, he will give tips to rephrase your question.
 
 
 ## Installation Instructions:
@@ -42,7 +43,7 @@ Johannes Damke
 Killian Ebi  
 
 
-## some evaluations 
+## Some evaluations 
 
 ![CRFEntityExtractor_confusion_matrix](https://user-images.githubusercontent.com/77493377/150163110-d96783e9-4ffc-4537-acaa-847050161655.png)
 ![CRFEntityExtractor_histogram](https://user-images.githubusercontent.com/77493377/150163119-e4829812-0448-4d34-8474-b95094213a58.png)
